@@ -1,0 +1,32 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>pxb-day-dial test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../pxb-day-dial.html">
+  </head>
+  <body>
+
+    <test-fixture id="basic">
+      <template>
+        <pxb-day-dial></pxb-day-dial>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite('pxb-day-dial', function() {
+
+        test('instantiating the element works', function() {
+          var element = fixture('basic');
+          assert.equal(element.is, 'pxb-day-dial');
+        });
+
+      });
+    </script>
+  </body>
+</html>
