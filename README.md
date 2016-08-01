@@ -2,6 +2,14 @@
 
 A tiny wheel that you can spin to select a time of day.
 
+# Usage
+
+The dial is a time input device. Its rotation represents a time of day, and you can drag it to change the time of day.
+
+It doesn't yet emit events on time change, but the time attribute on the component updates.
+
+# Development
+
 ## Install the Polymer-CLI
 
 First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your application locally.
