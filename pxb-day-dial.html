@@ -4,31 +4,214 @@
 `pxb-day-dial`
 A tiny wheel that you can spin to select a time of day.
 
-@demo demo/index.html 
+@demo demo/index.html
 -->
 
 <dom-module id="pxb-day-dial">
   <template>
     <style>
       :host {
-        display: block;
+        display: inline-block;
+        width: 3em;
+        height: 3em;
+        border-radius: 50%;
+        overflow: hidden;
+        position: relative;
+      }
+      .pxb-day-dial-viewport {
+        position: relative;
+        -webkit-clip-path: polygon(0% 0%, 44% 0%, 48% 30%, 52% 30%, 56% 0%, 100% 0%, 100% 100%, 0% 100%);
+        clip-path: polygon(0% 0%, 44% 0%, 48% 30%, 52% 30%, 56% 0%, 100% 0%, 100% 100%, 0% 100%);
+      }
+      .pxb-day-dial-viewport--1by1 {
+        height: auto;
+        padding-bottom: 100%;
+      }
+      .pxb-day-dial-viewport-fill {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .pxb-day-dial-graphic {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transform-origin: center center;
+      }
+      .pxb-day-dial-scroller {
+        overflow: hidden;
+        overflow-y: auto;
+        z-index: 1;
+      }
+      .pxb-day-dial-scroller-content {
+        height: 2400%;
       }
     </style>
-    <h2>Hello [[prop1]]</h2>
+    <div class="pxb-day-dial-viewport pxb-day-dial-viewport--1by1">
+        <div id="pxb-day-dial-scroller" class="pxb-day-dial-scroller pxb-day-dial-viewport-fill">
+            <!-- <div class="pxb-day-dial-scroller-content"></div> -->
+        </div>
+        <svg class="pxb-day-dial-graphic pxb-day-dial-viewport-fill" style$="transform: rotate([[tilt]]rad)" width="640px" height="640px" viewBox="0 0 640 640" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+            <title>Radial</title>
+            <desc>Created with Sketch.</desc>
+            <defs>
+                <path d="M320,640 C496.73112,640 640,496.73112 640,320 C640,143.26888 496.73112,0 320,0 C143.26888,0 0,143.26888 0,320 C0,496.73112 143.26888,640 320,640 Z" id="path-1"></path>
+                <linearGradient x1="50%" y1="84.8094707%" x2="50%" y2="14.1362404%" id="linearGradient-3">
+                    <stop stop-color="#1F56B9" stop-opacity="0" offset="0%"></stop>
+                    <stop stop-color="#1F56B9" offset="29.2510364%"></stop>
+                    <stop stop-color="#3E8EE1" offset="51.2077487%"></stop>
+                    <stop stop-color="#1E55B8" offset="73.1505102%"></stop>
+                    <stop stop-color="#1E55B8" stop-opacity="0" offset="100%"></stop>
+                </linearGradient>
+                <linearGradient x1="50%" y1="100%" x2="50%" y2="0%" id="linearGradient-4">
+                    <stop stop-color="#142763" offset="0%"></stop>
+                    <stop stop-color="#061028" offset="24.8676705%"></stop>
+                    <stop stop-color="#01040D" offset="49.702567%"></stop>
+                    <stop stop-color="#FDC82E" offset="49.7224809%"></stop>
+                    <stop stop-color="#EC6C24" offset="56.1377639%"></stop>
+                    <stop stop-color="#62424E" offset="70.2686543%"></stop>
+                    <stop stop-color="#1E55B8" offset="84.5357411%"></stop>
+                    <stop stop-color="#4499E7" offset="100%"></stop>
+                </linearGradient>
+                <linearGradient x1="50%" y1="100%" x2="50%" y2="0%" id="linearGradient-5">
+                    <stop stop-color="#FDC82E" offset="0%"></stop>
+                    <stop stop-color="#EC6C24" offset="56.1377639%"></stop>
+                    <stop stop-color="#62424E" offset="70.2686543%"></stop>
+                    <stop stop-color="#1E55B8" offset="84.5357411%"></stop>
+                    <stop stop-color="#4499E7" offset="100%"></stop>
+                </linearGradient>
+                <linearGradient x1="50%" y1="100%" x2="50%" y2="0%" id="linearGradient-6">
+                    <stop stop-color="#142763" offset="0%"></stop>
+                    <stop stop-color="#061028" offset="24.8676705%"></stop>
+                    <stop stop-color="#01040D" offset="49.702567%"></stop>
+                    <stop stop-color="#FDC82E" offset="49.7224809%"></stop>
+                    <stop stop-color="#EC6C24" stop-opacity="0" offset="56.1377639%"></stop>
+                    <stop stop-color="#62424E" stop-opacity="0" offset="70.2686543%"></stop>
+                    <stop stop-color="#1E55B8" stop-opacity="0" offset="84.5357411%"></stop>
+                    <stop stop-color="#4499E7" stop-opacity="0" offset="100%"></stop>
+                </linearGradient>
+            </defs>
+            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="Group-2">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="Oval-2" fill="#12255D" xlink:href="#path-1"></use>
+                    <circle id="Oval-2" fill="url(#linearGradient-3)" mask="url(#mask-2)" transform="translate(320.000000, 320.000000) rotate(-90.000000) translate(-320.000000, -320.000000) " cx="320" cy="320" r="320"></circle>
+                    <circle id="Oval-2" fill="url(#linearGradient-4)" mask="url(#mask-2)" cx="320" cy="320" r="320"></circle>
+                    <path d="M320,640 C496.73112,640 640,496.73112 640,320 C640,143.26888 496.73112,0 320,0 C143.26888,0 0,143.26888 0,320 C0,496.73112 143.26888,640 320,640 Z" id="Oval-2" fill-opacity="0.3" fill="url(#linearGradient-5)" style="mix-blend-mode: overlay;" mask="url(#mask-2)" transform="translate(320.000000, 320.000000) rotate(-315.000000) translate(-320.000000, -320.000000) "></path>
+                    <circle id="Oval-2" fill-opacity="0.300000012" fill="url(#linearGradient-5)" mask="url(#mask-2)" transform="translate(320.000000, 320.000000) rotate(-45.000000) translate(-320.000000, -320.000000) " cx="320" cy="320" r="320"></circle>
+                    <path d="M320,640 C496.73112,640 640,496.73112 640,320 C640,143.26888 496.73112,0 320,0 C143.26888,0 0,143.26888 0,320 C0,496.73112 143.26888,640 320,640 Z" id="Oval-2" fill="url(#linearGradient-6)" mask="url(#mask-2)"></path>
+                </g>
+            </g>
+        </svg>
+    </div>
   </template>
 
   <script>
+    function progressToTilt(progress) {
+        var tilt;
+        progress = progress >= 0.75 ? progress - 1 : progress;
+        tilt = progress * 2 * Math.PI - Math.PI;
+        return tilt;
+    }
+    function tiltToProgress(tilt) {
+        var progress;
+        progress = (tilt + Math.PI) / 2 / Math.PI;
+        progress = progress < 0 ? progress + 1 : progress;
+        return progress;
+    }
+    function timeToProgress(time) {
+        var progress;
+        progress = (time - todayStart.getTime()) / todayLength;
+        return progress;
+    }
+    function progressToTime(progress) {
+        var time;
+        time = progress * todayLength + todayStart.getTime();
+        return time;
+    }
+    var angleStart, angleChange, initialTilt, now, todayStart, todayEnd, todayLength, todayProgress, startingTilt;
+    now = new Date();
+    todayStart = new Date();
+    todayStart.setMilliseconds(0);
+    todayStart.setSeconds(0);
+    todayStart.setMinutes(0);
+    todayStart.setHours(0);
+    todayEnd = new Date(todayStart.getTime() + 129600000); // Add 36 hours to make sure we hit tomorrow
+    todayEnd.setMilliseconds(0);
+    todayEnd.setSeconds(0);
+    todayEnd.setMinutes(0);
+    todayEnd.setHours(0);
+    todayLength = todayEnd.getTime() - todayStart.getTime();
+    todayProgress = timeToProgress(now.getTime());
+    startingTilt = progressToTilt(todayProgress);
+    // Sunset:   -3/2 pi
+    // Midnight: -2/2 pi
+    // Sunrise:  -1/2 pi
+    // Noon:      0   pi
+    // console.log(startingTilt + '');
     Polymer({
-
       is: 'pxb-day-dial',
-
       properties: {
-        prop1: {
-          type: String,
-          value: 'pxb-day-dial',
+        tilt: {
+            type: Number,
+            value: startingTilt + '',
+            reflectToAttribute: true
         },
+        time: {
+            type: Date,
+            value: now,
+            reflectToAttribute: true
+        }
       },
-
+      listeners: {
+        'pxb-day-dial-scroller.track': 'drag',
+        // 'pxb-day-dial-scroller.scroll': 'scroll'
+      },
+      drag: function(e) {
+        var circleCenter = [e.currentTarget.getBoundingClientRect().left + e.currentTarget.clientWidth / 2, e.currentTarget.getBoundingClientRect().top + e.currentTarget.clientHeight / 2];
+        switch (e.detail.state) {
+            case 'start':
+                // console.log('start', e.detail.x - circleCenter[0], e.detail.y - circleCenter[1]);
+                var deltaX = e.detail.x - circleCenter[0],
+                    deltaY = e.detail.y - circleCenter[1],
+                    rad = Math.atan2(deltaY, - deltaX);
+                angleStart = rad;
+                initialTilt = this.tilt;
+                // console.log('Initial radians', angleStart);
+                break;
+            case 'track':
+                // console.log('track', e.detail.x, e.detail.y);
+                var deltaX = e.detail.x - circleCenter[0],
+                    deltaY = e.detail.y - circleCenter[1],
+                    rad = Math.atan2(deltaY, - deltaX);
+                angleChange = (rad - angleStart + Math.PI * 2) % (Math.PI * 2);
+                // console.log('Tracked radians', angleChange);
+                this.tilt = (initialTilt - angleChange) % (Math.PI * 2);
+                this.time = new Date(progressToTime(tiltToProgress(this.tilt))).toString();
+                break;
+            case 'end':
+                // console.log('end', e.detail.x, e.detail.y);
+                var deltaX = e.detail.x - circleCenter[0],
+                    deltaY = e.detail.y - circleCenter[1],
+                    rad = Math.atan2(deltaY, - deltaX);
+                angleChange = (rad - angleStart + Math.PI * 2) % (Math.PI * 2);
+                // console.log('End radians', angleChange);
+                this.tilt = (initialTilt - angleChange) % (Math.PI * 2);
+                this.time = new Date(progressToTime(tiltToProgress(this.tilt))).toString();
+                break;
+        }
+      },
+      scroll: function(e) {
+        var scrollPercent = e.target.scrollTop / (e.target.scrollHeight - e.target.clientHeight);
+        this.tilt = parseInt(scrollPercent * 360, 10);
+      }
     });
   </script>
 </dom-module>
