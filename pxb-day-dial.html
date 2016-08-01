@@ -151,11 +151,6 @@ A tiny wheel that you can spin to select a time of day.
     todayLength = todayEnd.getTime() - todayStart.getTime();
     todayProgress = timeToProgress(now.getTime());
     startingTilt = progressToTilt(todayProgress);
-    // Sunset:   -3/2 pi
-    // Midnight: -2/2 pi
-    // Sunrise:  -1/2 pi
-    // Noon:      0   pi
-    // console.log(startingTilt + '');
     Polymer({
       is: 'pxb-day-dial',
       properties: {
@@ -178,31 +173,25 @@ A tiny wheel that you can spin to select a time of day.
         var circleCenter = [e.currentTarget.getBoundingClientRect().left + e.currentTarget.clientWidth / 2, e.currentTarget.getBoundingClientRect().top + e.currentTarget.clientHeight / 2];
         switch (e.detail.state) {
             case 'start':
-                // console.log('start', e.detail.x - circleCenter[0], e.detail.y - circleCenter[1]);
                 var deltaX = e.detail.x - circleCenter[0],
                     deltaY = e.detail.y - circleCenter[1],
                     rad = Math.atan2(deltaY, - deltaX);
                 angleStart = rad;
                 initialTilt = this.tilt;
-                // console.log('Initial radians', angleStart);
                 break;
             case 'track':
-                // console.log('track', e.detail.x, e.detail.y);
                 var deltaX = e.detail.x - circleCenter[0],
                     deltaY = e.detail.y - circleCenter[1],
                     rad = Math.atan2(deltaY, - deltaX);
                 angleChange = (rad - angleStart + Math.PI * 2) % (Math.PI * 2);
-                // console.log('Tracked radians', angleChange);
                 this.tilt = (initialTilt - angleChange) % (Math.PI * 2);
                 this.time = new Date(progressToTime(tiltToProgress(this.tilt))).toString();
                 break;
             case 'end':
-                // console.log('end', e.detail.x, e.detail.y);
                 var deltaX = e.detail.x - circleCenter[0],
                     deltaY = e.detail.y - circleCenter[1],
                     rad = Math.atan2(deltaY, - deltaX);
                 angleChange = (rad - angleStart + Math.PI * 2) % (Math.PI * 2);
-                // console.log('End radians', angleChange);
                 this.tilt = (initialTilt - angleChange) % (Math.PI * 2);
                 this.time = new Date(progressToTime(tiltToProgress(this.tilt))).toString();
                 break;
