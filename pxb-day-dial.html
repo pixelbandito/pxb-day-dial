@@ -136,6 +136,25 @@ A tiny wheel that you can spin to select a time of day.
         time = progress * todayLength + todayStart.getTime();
         return time;
     }
+    function fireChange(component, deltaTilt) {
+        var datetime;
+        component.tilt = deltaTilt % (Math.PI * 2);
+        datetime = new Date(progressToTime(tiltToProgress(component.tilt)));
+        component.time = datetime.toString();
+        component.value = datetime.toISOString();
+        component.fire('change', {
+            bubbles: true,
+            cancelable: false
+        });
+    }
+    function getCenter(element) {
+        var center = [element.getBoundingClientRect().left + element.clientWidth / 2, element.getBoundingClientRect().top + element.clientHeight / 2];
+        return center;
+    }
+    function getDeltaTilt(rad, angleStart) {
+        var deltaTilt = initialTilt - ((rad - angleStart + Math.PI * 2) % (Math.PI * 2));
+        return deltaTilt;
+    }
     var angleStart, angleChange, initialTilt, now, todayStart, todayEnd, todayLength, todayProgress, startingTilt;
     now = new Date();
     todayStart = new Date();
@@ -156,12 +175,11 @@ A tiny wheel that you can spin to select a time of day.
       properties: {
         tilt: {
             type: Number,
-            value: startingTilt + '',
-            reflectToAttribute: true
+            value: startingTilt + ''
         },
-        time: {
-            type: Date,
-            value: now,
+        value: {
+            type: String,
+            value: now.toISOString(),
             reflectToAttribute: true
         }
       },
@@ -170,30 +188,23 @@ A tiny wheel that you can spin to select a time of day.
         // 'pxb-day-dial-scroller.scroll': 'scroll'
       },
       drag: function(e) {
-        var circleCenter = [e.currentTarget.getBoundingClientRect().left + e.currentTarget.clientWidth / 2, e.currentTarget.getBoundingClientRect().top + e.currentTarget.clientHeight / 2];
+        var circleCenter, deltaX, deltaY, rad, deltaTilt;
+        circleCenter = getCenter(e.currentTarget);
+        deltaX = e.detail.x - circleCenter[0];
+        deltaY = e.detail.y - circleCenter[1];
+        rad = Math.atan2(deltaY, - deltaX);
         switch (e.detail.state) {
             case 'start':
-                var deltaX = e.detail.x - circleCenter[0],
-                    deltaY = e.detail.y - circleCenter[1],
-                    rad = Math.atan2(deltaY, - deltaX);
                 angleStart = rad;
                 initialTilt = this.tilt;
                 break;
             case 'track':
-                var deltaX = e.detail.x - circleCenter[0],
-                    deltaY = e.detail.y - circleCenter[1],
-                    rad = Math.atan2(deltaY, - deltaX);
-                angleChange = (rad - angleStart + Math.PI * 2) % (Math.PI * 2);
-                this.tilt = (initialTilt - angleChange) % (Math.PI * 2);
-                this.time = new Date(progressToTime(tiltToProgress(this.tilt))).toString();
+                deltaTilt = getDeltaTilt(rad, angleStart);
+                fireChange(this, deltaTilt);
                 break;
             case 'end':
-                var deltaX = e.detail.x - circleCenter[0],
-                    deltaY = e.detail.y - circleCenter[1],
-                    rad = Math.atan2(deltaY, - deltaX);
-                angleChange = (rad - angleStart + Math.PI * 2) % (Math.PI * 2);
-                this.tilt = (initialTilt - angleChange) % (Math.PI * 2);
-                this.time = new Date(progressToTime(tiltToProgress(this.tilt))).toString();
+                deltaTilt = getDeltaTilt(rad, angleStart);
+                fireChange(this, deltaTilt);
                 break;
         }
       },
